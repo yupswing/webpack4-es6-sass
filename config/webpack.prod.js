@@ -1,8 +1,11 @@
+const path = require('path');
 const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
+const common = require('./webpack.common');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = merge(common, {
     mode: 'production',
@@ -12,7 +15,12 @@ module.exports = merge(common, {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '../'
+                        }
+                    },
                     'css-loader',
                     'sass-loader',
                 ]
@@ -29,10 +37,14 @@ module.exports = merge(common, {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: "[name].bundle.css",
-            chunkFilename: "[name][id].bundle.css"
-        })
+            filename: "css/[name].bundle.css",
+            chunkFilename: "css/[name][id].bundle.css"
+        }),
+        new CopyWebpackPlugin([{
+            from: path.resolve(__dirname, '../src/static')
+        }])
     ],
     optimization: {
         splitChunks: {
@@ -46,11 +58,11 @@ module.exports = merge(common, {
         },
         minimizer: [
             new UglifyJsPlugin({
-              cache: true,
-              parallel: true,
-              sourceMap: true // set to true if you want JS source maps
+                cache: true,
+                parallel: true,
+                sourceMap: true 
             }),
             new OptimizeCSSAssetsPlugin({})
-          ]
+        ]
     }
 });
