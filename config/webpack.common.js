@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        vendor: ['jquery', 'materialize-css'],
         main: './src/js/index.js',
         'addon/addon': './src/js/addon.name.js'
     },
@@ -18,7 +17,10 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
                 }
             },
             {
@@ -48,8 +50,11 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({ template: './src/index.html' }),
         new webpack.ProvidePlugin({
+            jQuery: 'jquery',
             $: 'jquery',
-            jQuery: 'jquery'
+            jquery: 'jquery',
+            'window.$': 'jquery',
+            'window.jQuery': 'jquery',
         })
     ]
 };
