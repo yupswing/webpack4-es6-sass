@@ -9,6 +9,11 @@ default class Main {
 
     start() {
         console.log('in START');
+        //$('body').css({'background':'blue'});
+       // $('.tabs').tabs();
+
+       $('.modal').modal();
+          
     }
 
 }

@@ -52,7 +52,8 @@ module.exports = merge(common, {
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     name: 'vendor',
-                    chunks: 'all',
+                    chunks: 'all', // 'initial'
+                    enforce: true
                 }
             }
         },
@@ -60,7 +61,7 @@ module.exports = merge(common, {
             new UglifyJsPlugin({
                 cache: true,
                 parallel: true,
-                sourceMap: true 
+                sourceMap: true
             }),
             new OptimizeCSSAssetsPlugin({})
         ]
