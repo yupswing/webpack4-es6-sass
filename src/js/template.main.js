@@ -2,18 +2,10 @@
  *  Class Main
  */
 
-export
-default class Main {
+export default class Main {
+  constructor() {}
 
-    constructor() {}
-
-    start() {
-        console.log('in START');
-        //$('body').css({'background':'blue'});
-       // $('.tabs').tabs();
-
-       $('.modal').modal();
-          
-    }
-
+  start() {
+    console.log("in START");
+  }
 }
